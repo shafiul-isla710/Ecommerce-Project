@@ -1,6 +1,6 @@
 <?php
 
-namespace App\Helpers;
+namespace App\Helper;
 
 use Illuminate\Http\JsonResponse;
 
@@ -12,7 +12,7 @@ trait ApiResponse
             'data' => $data,
             'messages' => $messages,
             'code' => $code
-        ]);
+        ], $code);
     }
 
     public function error($messages = [], $code = 422): JsonResponse
@@ -21,7 +21,7 @@ trait ApiResponse
             'data' => null,
             'messages' => $messages,
             'code' => $code
-        ]);
+        ],$code);
     }
 }
 
