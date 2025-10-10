@@ -13,4 +13,6 @@ Route::group(['prefix'=>'v1'],function(){
 
     //Product routes
     Route::get('/products',[ProductController::class, 'index']);
+    Route::get('/product/{product}',[ProductController::class, 'show']);
+    Route::get('/product-slider',[ProductController::class, 'productSlider']);
 });

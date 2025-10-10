@@ -3,10 +3,12 @@
 namespace App\Http\Controllers;
 
 use App\Models\Product;
+use App\Models\ProductSlider;
 use Illuminate\Http\Request;
 
 class ProductController extends Controller
 {
+    //query search get product
     public function index(Request $request)
     {
 
@@ -34,5 +36,27 @@ class ProductController extends Controller
         }
     }
 
+    // show a single product
+    public function show(Product $product)
+    {
+        try{
+            return $this->success($product,'Product Fetched Successfully');
+        }
+        catch(\Exception $e){
+            return $this->error($e->getMessage());
+        }
+    }
     
+    //Product Slider with Product
+    public function productSlider(Product $product)
+    {
+        try{
+            $slider = ProductSlider::with('product')->get();
+            return $this->success($slider,'Product Slider Fetched Successfully');
+        }
+        catch(\Exception $e){
+            return $this->error($e->getMessage());
+        }
+    }
+
 }
