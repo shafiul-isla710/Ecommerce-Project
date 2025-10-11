@@ -6,6 +6,7 @@ use App\Http\Controllers\AuthController;
 use App\Http\Controllers\BrandController;
 use App\Http\Controllers\ProductController;
 use App\Http\Controllers\CategoryController;
+use App\Http\Controllers\WishListController;
 
 
 Route::group(['prefix'=>'v1'],function(){
@@ -20,4 +21,11 @@ Route::group(['prefix'=>'v1'],function(){
     //login
     Route::post('/sent-otp',[AuthController::class, 'sentOtp']);
     Route::post('/login',[AuthController::class, 'login']);
+
+    Route::group(['middleware'=>'auth:sanctum'],function(){
+        //Wish list
+        Route::post('/add-wishlist',[WishListController::class,'addWishList']);
+        Route::get('/wishlist',[WishListController::class,'wishlist']);
+        Route::delete('/remove-wishlist/{list}',[WishListController::class,'removeWishList']);
+    });
 });

@@ -4,61 +4,70 @@ namespace App\Http\Controllers;
 
 use App\Models\User;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Log;
 use Illuminate\Support\Facades\Mail;
+use App\Http\Requests\Auth\LoginRequest;
+use App\Http\Requests\Auth\SentoptRequest;
 
 class AuthController extends Controller
 {
     
-    public function sentOtp(Request $request)
+    public function sentOtp(SentoptRequest $request)
     {
-        $request->validate([
-            'name' => 'required',
-            'email' => 'required|email|unique:users,email',
-        ]);
-        $user = User::where('email',$request->email)->first();
-        $otp = rand(100000,999999);
-        if(!$user){
-            User::create([
-                'name'=>$request->name,
-                'email'=>$request->email,
-                'otp'=>$otp,
-            ]);
-            Mail::raw('Your OTP is '.$otp, function($message) use ($request){
-                
-                $message->to($request->email);
-                $message->subject('OTP');
-            });
-            return $this->success([],'User create and otp sent successfully');
+        try{
+            $request->validated();
+
+            $user = User::where('email',$request->email)->first();
+            $otp = rand(100000,999999);
+            if(!$user){
+                User::create([
+                    'name'=>$request->name,
+                    'email'=>$request->email,
+                    'otp'=>$otp,
+                ]);
+                Mail::raw('Your OTP is '.$otp, function($message) use ($request){
+                    
+                    $message->to($request->email);
+                    $message->subject('OTP');
+                });
+                return $this->success([],'User create and otp sent successfully');
+            }
+            else{
+                $user->otp = $otp;
+                $user->save();
+                Mail::raw('Your OTP is '.$otp, function($message) use ($request){
+                    $message->to($request->email);
+                    $message->subject('OTP');
+                });
+                return $this->success([],'Otp sent successfully');
+            }
         }
-        else{
-            $user->otp = $otp;
-            $user->save();
-            Mail::raw('Your OTP is '.$otp, function($message) use ($request){
-                $message->to($request->email);
-                $message->subject('OTP');
-            });
-            return $this->success([],'Otp sent successfully');
+        catch(\Exception $e){
+            Log::error('Sent otp error: ' . $e->getMessage());
+            return $this->error($e->getMessage());
         }
     }
 
-    public function login(Request $request)
+    public function login(LoginRequest $request)
     {
-        $request->validate([
-            'otp'=>'required',
-        ]);
-        $user = User::where('otp',$request->otp)->first();
-        // dd($user->otp);
-
-
-        if($user){
-            $user->update([
-                'otp'=>null,
-            ]);
-            $token = $user->createToken('auth_token')->plainTextToken;
-            return $this->success(['token'=>$token],'Login successfully');
+        try{
+            $request->validated();
+            $user = User::where('otp',$request->otp)->first();
+            
+            if($user){
+                $user->update([
+                    'otp'=>null,
+                ]);
+                $token = $user->createToken('auth_token')->plainTextToken;
+                return $this->success(['token'=>$token],'Login successfully');
+            }
+            else{
+                return $this->error('Invalid otp');
+            }
         }
-        else{
-            return $this->error('Invalid otp');
+        catch(\Exception $e){
+            Log::error('Login error: ' . $e->getMessage());
+            return $this->error($e->getMessage());
         }
     }
 
