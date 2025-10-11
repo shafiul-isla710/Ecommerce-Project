@@ -6,6 +6,7 @@ use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Relations\HasMany;
+use Illuminate\Database\Eloquent\Relations\HasOne;
 
 class Product extends Model
 {
@@ -26,6 +27,10 @@ class Product extends Model
         'category_id',
         'brand_id'
     ];
+    protected $hidden = [
+        'created_at',
+        'updated_at'
+    ];
 
     public function category():BelongsTo
     {
@@ -36,14 +41,19 @@ class Product extends Model
     {
         return $this->belongsTo(Brand::class);
     }
-    public function slider():HasMany
+    public function productSlider():HasOne
     {
-        return $this->hasMany(ProductSlider::class);
+        return $this->hasOne(ProductSlider::class);
     }
 
     public function wishList():HasMany
     {
         return $this->hasMany(ProductWishList::class);
     }
+    public function productDetails():HasOne
+    {
+        return $this->hasOne(ProductDetails::class);
+    }
+
 
 }

@@ -2,11 +2,13 @@
 
 namespace Database\Seeders;
 
-use App\Models\Brand;
-use App\Models\Category;
-use App\Models\Product;
 use App\Models\User;
+use App\Models\Brand;
+use App\Models\Product;
+use App\Models\Category;
+use App\Models\ProductSlider;
 // use Illuminate\Database\Console\Seeds\WithoutModelEvents;
+use App\Models\ProductDetails;
 use Illuminate\Database\Seeder;
 
 class DatabaseSeeder extends Seeder
@@ -25,9 +27,7 @@ class DatabaseSeeder extends Seeder
 
         Category::factory(10)->create();
         Brand::factory(10)->create();
-        Product::factory(100)->create();
-        $this->call([
-            ProductSliderSeeder::class
-        ]);
+        Product::factory(100)->has(ProductSlider::factory())->has(ProductDetails::factory())->create();
+        
     }
 }

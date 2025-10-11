@@ -28,7 +28,7 @@ class ProductController extends Controller
                 $query->where('title', $request->title);
             }
 
-            $data = $query->get();
+            $data = $query->with('productDetails')->get();
             return $this->success($data,'Products Fetched Successfully');
         }
         catch(\Exception $e){
@@ -40,7 +40,7 @@ class ProductController extends Controller
     public function show(Product $product)
     {
         try{
-            return $this->success($product,'Product Fetched Successfully');
+            return $this->success($product->load('productDetails'),'Product Fetched Successfully');
         }
         catch(\Exception $e){
             return $this->error($e->getMessage());
@@ -48,7 +48,7 @@ class ProductController extends Controller
     }
     
     //Product Slider with Product
-    public function productSlider(Product $product)
+    public function productSlider()
     {
         try{
             $slider = ProductSlider::with('product')->get();
