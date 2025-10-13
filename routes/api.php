@@ -3,6 +3,7 @@
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\AuthController;
+use App\Http\Controllers\CartController;
 use App\Http\Controllers\BrandController;
 use App\Http\Controllers\ProductController;
 use App\Http\Controllers\CategoryController;
@@ -27,5 +28,11 @@ Route::group(['prefix'=>'v1'],function(){
         Route::post('/add-wishlist',[WishListController::class,'addWishList']);
         Route::get('/wishlist',[WishListController::class,'wishlist']);
         Route::delete('/remove-wishlist/{list}',[WishListController::class,'removeWishList']);
+
+        //Cart List
+        Route::get('/cartList',[CartController::class,'cartList']);
+        Route::post('/add-cartList',[CartController::class,'addCartList']);
+        Route::delete('/remove-to-cartList',[CartController::class,'removeToCartLit']);
+        Route::delete('/clear-cartList',[CartController::class,'clearCartList']);
     });
 });

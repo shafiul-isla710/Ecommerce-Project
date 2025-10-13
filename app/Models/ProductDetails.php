@@ -17,4 +17,9 @@ class ProductDetails extends Model
         'created_at',
         'updated_at'
     ];
+
+    protected $casts = [
+        'color' => 'array',
+        'size' => 'array'
+    ];
 }

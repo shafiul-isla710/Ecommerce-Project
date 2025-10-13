@@ -55,5 +55,8 @@ class Product extends Model
         return $this->hasOne(ProductDetails::class);
     }
 
-
+    public function cartList():HasMany
+    {
+        return $this->hasMany(Cart::class);
+    }
 }

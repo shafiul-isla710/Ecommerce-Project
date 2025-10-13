@@ -16,14 +16,13 @@ class ProductDetailsFactory extends Factory
      */
     public function definition(): array
     {
-        
-
+       
         return [
             'description' => fake()->text(),
             'image1'=> 'https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcTW1yhlTpkCnujnhzP-xioiy9RdDQkKLMnMSg&s',
             'image2'=> 'https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcTW1yhlTpkCnujnhzP-xioiy9RdDQkKLMnMSg&s',
-            'color'=> fake()->colorName(),
-            'size'=> fake()->randomElement(['S', 'M', 'L', 'XL']),
+            'color'=> ['blue', 'red', 'green', 'yellow'],
+            'size'=> ['S', 'M', 'L', 'XL'],
         ];
     }
 }
