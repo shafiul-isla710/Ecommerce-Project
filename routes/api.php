@@ -8,6 +8,7 @@ use App\Http\Controllers\BrandController;
 use App\Http\Controllers\ProductController;
 use App\Http\Controllers\CategoryController;
 use App\Http\Controllers\WishListController;
+use App\Http\Controllers\CustomerProfileController;
 
 
 Route::group(['prefix'=>'v1'],function(){
@@ -33,6 +34,10 @@ Route::group(['prefix'=>'v1'],function(){
         Route::get('/cartList',[CartController::class,'cartList']);
         Route::post('/add-cartList',[CartController::class,'addCartList']);
         Route::delete('/remove-to-cartList',[CartController::class,'removeToCartLit']);
-        Route::delete('/clear-cartList',[CartController::class,'clearCartList']);
+        Route::delete('/   ',[CartController::class,'clearCartList']);
+
+        //Customer Profile
+        Route::post('/profile-create',[CustomerProfileController::class,'profileCreate']);
+        Route::post('/profile-update',[CustomerProfileController::class,'profileUpdate']);
     });
 });
