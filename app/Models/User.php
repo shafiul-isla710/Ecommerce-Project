@@ -60,6 +60,13 @@ class User extends Authenticatable
     {
         return $this->hasOne(CustomerProfile::class);
     }
-
+    public function invoice():HasMany
+    {
+        return $this->hasMany(Cart::class);
+    }
+    public function invoiceProduct():HasMany
+    {
+        return $this->hasMany(Cart::class);
+    }
 
 }

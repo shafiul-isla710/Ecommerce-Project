@@ -7,6 +7,7 @@ use App\Http\Controllers\CartController;
 use App\Http\Controllers\BrandController;
 use App\Http\Controllers\ProductController;
 use App\Http\Controllers\CategoryController;
+use App\Http\Controllers\CheckoutController;
 use App\Http\Controllers\WishListController;
 use App\Http\Controllers\CustomerProfileController;
 
@@ -39,5 +40,8 @@ Route::group(['prefix'=>'v1'],function(){
         //Customer Profile
         Route::post('/profile-create',[CustomerProfileController::class,'profileCreate']);
         Route::post('/profile-update',[CustomerProfileController::class,'profileUpdate']);
+
+        //Invoice or Checkout
+        Route::post('/create-checkout',[CheckoutController::class,'createCheckout']);
     });
 });

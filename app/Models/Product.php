@@ -59,4 +59,14 @@ class Product extends Model
     {
         return $this->hasMany(Cart::class);
     }
+    public function invoice():HasMany
+    {
+        return $this->hasMany(Invoice::class);
+    }
+    public function invoiceProduct():HasMany
+    {
+        return $this->hasMany(Invoice::class);
+    }
+
+    
 }
