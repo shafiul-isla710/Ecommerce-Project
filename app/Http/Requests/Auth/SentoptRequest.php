@@ -28,7 +28,7 @@ class SentoptRequest extends ApiFormValidationRequest
     {
         return [
             'name' => 'required',
-            'email' => 'required|email|unique:users,email',
+            'email' => 'required|email',
         ];
     }
 

@@ -18,6 +18,11 @@ class AuthController extends Controller
             $request->validated();
 
             $user = User::where('email',$request->email)->first();
+           
+            if($user != null && $user->name != $request->name){
+                $user->name = $request->name;
+                $user->save();
+            }
             $otp = rand(100000,999999);
             if(!$user){
                 User::create([
