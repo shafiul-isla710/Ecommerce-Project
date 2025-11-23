@@ -76,4 +76,17 @@ class AuthController extends Controller
         }
     }
 
+
+    public function logout(Request $request){
+        try{
+            $user = auth()->user();
+            $user->tokens()->delete();
+            return $this->success([],'Logout successfully');
+        }
+        catch(\Exception $e){
+            Log::error('Logout error: ' . $e->getMessage());
+            return $this->error($e->getMessage());
+        }
+    }
+
 }

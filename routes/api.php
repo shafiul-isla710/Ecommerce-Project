@@ -26,6 +26,8 @@ Route::group(['prefix'=>'v1'],function(){
     Route::post('/login',[AuthController::class, 'login']);
 
     Route::group(['middleware'=>'auth:sanctum'],function(){
+
+        Route::delete('/logout',[AuthController::class,'logout']);
         //Wish list
         Route::post('/add-wishlist',[WishListController::class,'addWishList']);
         Route::get('/wishlist',[WishListController::class,'wishlist']);
