@@ -8,6 +8,7 @@ use Illuminate\Support\Facades\Log;
 use Illuminate\Support\Facades\Mail;
 use App\Http\Requests\Auth\LoginRequest;
 use App\Http\Requests\Auth\SentoptRequest;
+use App\Mail\SentOtpMail;
 
 class AuthController extends Controller
 {
@@ -30,20 +31,13 @@ class AuthController extends Controller
                     'email'=>$request->email,
                     'otp'=>$otp,
                 ]);
-                Mail::raw('Your OTP is '.$otp, function($message) use ($request){
-                    
-                    $message->to($request->email);
-                    $message->subject('OTP');
-                });
+                Mail::to($request->email)->send(new SentOtpMail($otp));
                 return $this->success([],'User create and otp sent successfully');
             }
             else{
                 $user->otp = $otp;
                 $user->save();
-                Mail::raw('Your OTP is '.$otp, function($message) use ($request){
-                    $message->to($request->email);
-                    $message->subject('OTP');
-                });
+                Mail::to($request->email)->send(new SentOtpMail($otp));
                 return $this->success([],'Otp sent successfully');
             }
         }
